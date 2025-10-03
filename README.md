@@ -44,7 +44,7 @@ Our goal is to provide a reproducible model and a simple web interface where sci
 
 ```bash
 # clone repo
-git clone https://github.com/<c0llectorr>/ExoVision-AI.git
+git clone https://github.com/c0llectorr/ExoVision-AI.git
 cd ExoVision-AI
 
 # create virtual environment (optional)
