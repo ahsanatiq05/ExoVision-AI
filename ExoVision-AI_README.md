@@ -16,18 +16,18 @@
 
 ## 🚀 Overview
 
-**ExoVision-AI** is a machine learning–driven web application that automatically classifies celestial objects as **Confirmed Exoplanets** or **Planetary Candidates** using NASA’s open **Kepler Exoplanet Archive**.  
+**ExoVision-AI** is a machine learning–driven web application that automatically classifies celestial objects as **Confirmed Exoplanets** or **Planetary Candidates** using NASA's open **K2 Planets and Candidates Catalog**.  
 Developed by a team of passionate space and AI enthusiasts for the **NASA Space Apps Hackathon 2025**, this project bridges **data science** and **astrophysics** through real-time predictive modeling.
 
 ---
 
 ## 🌠 Key Highlights
 
-- 🧠 **Intelligent ML Pipeline** – Preprocessing, feature engineering, and optimized Decision Tree + XGBoost models.  
-- 🪐 **Interactive Web App (Flask)** – Upload datasets or manually enter parameters for instant classification.  
-- 📊 **Dynamic Visualizations** – Distribution charts, correlation heatmaps, ROC curves, and performance metrics.  
-- ⚙️ **End-to-End Reproducibility** – Ready-to-run environment with NASA data integration and trained models.  
-- 🧩 **Hackathon-Optimized** – Lightweight, interpretable, and deployable in under 10 minutes.
+-  **Intelligent ML Pipeline** – Preprocessing, feature engineering, and optimized Decision Tree + XGBoost models.  
+-  **Interactive Web App (Flask)** – Upload datasets or manually enter parameters for instant classification.  
+-  **Dynamic Visualizations** – Distribution charts, correlation heatmaps, ROC curves, and performance metrics.  
+-  **End-to-End Reproducibility** – Ready-to-run environment with NASA data integration and trained models.  
+-  **Hackathon-Optimized** – Lightweight, interpretable, and deployable in under 10 minutes.
 
 ---
 
@@ -48,7 +48,7 @@ ExoVision-AI/
 │   └── app.py                  # Flask web app
 │
 ├── Dataset/
-│   └── nasa-archive.csv        # NASA Kepler dataset
+│   └── k2pandc_2025.10.03_05.54.41.csv        # NASA K2 dataset
 │
 ├── Models/
 │   ├── decision_tree_model.pkl
@@ -71,10 +71,16 @@ ExoVision-AI/
   - Feature engineering (stellar & orbital parameters)
   - One-hot encoding for categorical features
 
-- **Modeling**
-  - **Decision Tree Classifier** for interpretability  
-  - **XGBoost** for gradient-boosted performance  
+- **Modeling Strategy**
+  - **Parallel Model Development**: Team divided into two sub-teams for comparative analysis
+  - **Team A**: Trained XGBoost and Decision Tree models (selected for final implementation)
+  - **Team B**: Trained LightGBM model (used for performance benchmarking)
   - 5-Fold **Stratified Cross-Validation**
+
+- **Model Selection**
+  - XGBoost selected for superior performance and interpretability
+  - Decision Tree maintained as fallback for transparency and comparison
+  - Final ensemble approach leverages both models for robust predictions
 
 - **Evaluation Metrics**
   - Accuracy, Precision, Recall, F1-Score, ROC-AUC
@@ -89,7 +95,7 @@ ExoVision-AI/
 Built using **Flask**, the interface allows two modes:
 
 1. **📤 CSV Upload:**  
-   Upload new Kepler data to automatically classify planetary candidates.
+   Upload new K2 data to automatically classify planetary candidates.
 
 2. **🧮 Manual Input:**  
    Enter stellar and planetary parameters via form input to get instant predictions.
@@ -162,11 +168,11 @@ http://127.0.0.1:5000/
 
 | Member | Role | Area |
 |---------|------|------|
+| Muhammad Ahmad | **Team Leader & Data Scientist** | Project Leadership, Data Strategy, Model Evaluation |
 | Syed Darain Hyder Kazmi | ML Engineer | Model Training & Deployment |
-| Muhammad Ahmad | Data Scientist | EDA & Preprocessing |
 | Muhammad Ahsan Atiq | Backend Developer | Flask API Integration |
 | Muhammad Mohsin | Frontend Developer | HTML Templates & UX |
-| Ali Hasan | Research Lead | NASA Data & Validation |
+| Ali Hassan | Research Lead | NASA Data & Validation |
 
 > *A collaboration born from curiosity, teamwork, and love for the stars.*
 
@@ -180,7 +186,8 @@ This project is licensed under the **Apache License 2.0** — free to use, modif
 
 ## 🌎 Acknowledgments
 
-- **NASA Exoplanet Archive** – for the Kepler dataset  
+- **NASA Exoplanet Archive** – for the K2 Planets and Candidates Catalog  
+  [Dataset Link](https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+*+from+ps+where+st_assess='k2pos'+order+by+pl_name&format=html)
 - **Scikit-learn**, **XGBoost**, **Flask**, **Seaborn** – core technology stack  
 - **NASA Space Apps Hackathon 2025** – for the opportunity to explore the universe with AI  
 
