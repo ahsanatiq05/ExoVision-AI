@@ -10,8 +10,7 @@ Thousands of exoplanets have been identified from Kepler’s transit data, yet m
 **ExoVision-AI** uses modern Machine Learning to classify light curve data points as:
 
 - ✅ Confirmed Exoplanet  
-- 🟡 Planetary Candidate  
-- ❌ False Positive  
+- 🟡 Planetary Candidate   
 
 Our goal is to provide a reproducible model and a simple web interface where scientists and enthusiasts can upload new Kepler data and instantly receive classification results.
 
