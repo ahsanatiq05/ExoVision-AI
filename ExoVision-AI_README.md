@@ -187,7 +187,7 @@ This project is licensed under the **Apache License 2.0** — free to use, modif
 ## 🌎 Acknowledgments
 
 - **NASA Exoplanet Archive** – for the K2 Planets and Candidates Catalog  
-  [Dataset Link](https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+*+from+ps+where+st_assess='k2pos'+order+by+pl_name&format=html)
+  [Dataset Link](https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=k2pandc)
 - **Scikit-learn**, **XGBoost**, **Flask**, **Seaborn** – core technology stack  
 - **NASA Space Apps Hackathon 2025** – for the opportunity to explore the universe with AI  
 
