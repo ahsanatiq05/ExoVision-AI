@@ -48,7 +48,7 @@ ExoVision-AI/
 │   └── app.py                  # Flask web app
 │
 ├── Dataset/
-│   └── k2pandc_2025.10.03_05.54.41.csv        # NASA K2 dataset
+│   └── nasa-archive.csv        # NASA K2 dataset
 │
 ├── Models/
 │   ├── decision_tree_model.pkl
