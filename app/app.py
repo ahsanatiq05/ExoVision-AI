@@ -16,6 +16,10 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import xgboost as xgb
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.pipeline import Pipeline
+import warnings
+
+# Suppress warnings to make the output cleaner
+warnings.filterwarnings('ignore', category=UserWarning)
 
 app = Flask(__name__)
 app.secret_key = "exoplanet_secret_key"
@@ -102,8 +106,16 @@ try:
         dt_pipeline = create_fallback_dt_pipeline()
         
         # Create dummy training data to fit the pipeline
-        dummy_X = pd.DataFrame(np.random.rand(100, 26), 
-                              columns=[f'feature_{i}' for i in range(26)])
+        # Use column names to avoid the feature names warning
+        column_names = [
+            'sy_snum', 'sy_pnum', 'disc_year', 'pl_orbper', 'pl_orbsmax', 
+            'pl_rade', 'pl_radj', 'pl_bmasse', 'pl_bmassj', 'pl_orbeccen', 
+            'pl_insol', 'pl_eqt', 'st_teff', 'st_rad', 'st_mass', 'st_met', 
+            'st_logg', 'sy_dist', 'star_planet_size', 'temp_diff', 'log_insol',
+            'planets_per_system', 'stars_in_system', 'discoverymethod_MICROLENSING',
+            'discoverymethod_RADIAL VELOCITY', 'discoverymethod_TRANSIT'
+        ]
+        dummy_X = pd.DataFrame(np.random.rand(100, 26), columns=column_names)
         dummy_y = np.random.randint(0, 2, 100)  # Binary classification
         
         dt_pipeline.fit(dummy_X, dummy_y)
@@ -136,8 +148,16 @@ except Exception as e:
         dt_pipeline = create_fallback_dt_pipeline()
         
         # Create dummy training data to fit the pipeline
-        dummy_X = pd.DataFrame(np.random.rand(100, 26), 
-                              columns=[f'feature_{i}' for i in range(26)])
+        # Use column names to avoid the feature names warning
+        column_names = [
+            'sy_snum', 'sy_pnum', 'disc_year', 'pl_orbper', 'pl_orbsmax', 
+            'pl_rade', 'pl_radj', 'pl_bmasse', 'pl_bmassj', 'pl_orbeccen', 
+            'pl_insol', 'pl_eqt', 'st_teff', 'st_rad', 'st_mass', 'st_met', 
+            'st_logg', 'sy_dist', 'star_planet_size', 'temp_diff', 'log_insol',
+            'planets_per_system', 'stars_in_system', 'discoverymethod_MICROLENSING',
+            'discoverymethod_RADIAL VELOCITY', 'discoverymethod_TRANSIT'
+        ]
+        dummy_X = pd.DataFrame(np.random.rand(100, 26), columns=column_names)
         dummy_y = np.random.randint(0, 2, 100)  # Binary classification
         
         dt_pipeline.fit(dummy_X, dummy_y)
@@ -313,24 +333,43 @@ def create_visualizations(df, predictions=None, prediction_probs=None):
 
 def calculate_metrics(y_true, y_pred, y_prob=None):
     """Calculate evaluation metrics"""
-    metrics = {
-        'accuracy': accuracy_score(y_true, y_pred),
-        'precision': precision_score(y_true, y_pred),
-        'recall': recall_score(y_true, y_pred),
-        'f1_score': f1_score(y_true, y_pred)
-    }
-    
-    if y_prob is not None:
-        metrics['roc_auc'] = roc_auc_score(y_true, y_prob)
-    
-    # Confusion matrix
-    cm = confusion_matrix(y_true, y_pred)
-    tn, fp, fn, tp = cm.ravel()
-    
-    metrics['true_negatives'] = int(tn)
-    metrics['false_positives'] = int(fp)
-    metrics['false_negatives'] = int(fn)
-    metrics['true_positives'] = int(tp)
+    # Handle edge cases where metrics might be undefined
+    try:
+        metrics = {
+            'accuracy': accuracy_score(y_true, y_pred),
+            'precision': precision_score(y_true, y_pred, zero_division=0),
+            'recall': recall_score(y_true, y_pred, zero_division=0),
+            'f1_score': f1_score(y_true, y_pred, zero_division=0)
+        }
+        
+        if y_prob is not None:
+            try:
+                metrics['roc_auc'] = roc_auc_score(y_true, y_prob)
+            except:
+                metrics['roc_auc'] = 0.5  # Default to random guess if ROC AUC can't be calculated
+        
+        # Confusion matrix
+        cm = confusion_matrix(y_true, y_pred)
+        tn, fp, fn, tp = cm.ravel()
+        
+        metrics['true_negatives'] = int(tn)
+        metrics['false_positives'] = int(fp)
+        metrics['false_negatives'] = int(fn)
+        metrics['true_positives'] = int(tp)
+    except Exception as e:
+        print(f"Error calculating metrics: {str(e)}")
+        # Return default metrics if calculation fails
+        metrics = {
+            'accuracy': 0,
+            'precision': 0,
+            'recall': 0,
+            'f1_score': 0,
+            'roc_auc': 0.5,
+            'true_negatives': 0,
+            'false_positives': 0,
+            'false_negatives': 0,
+            'true_positives': 0
+        }
     
     return metrics
 
